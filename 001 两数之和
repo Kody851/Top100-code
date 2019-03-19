@@ -1,0 +1,94 @@
+原题 ：Two Sum：https://leetcode.com/problems/two-sum/solution/
+中文版 ：https://leetcode-cn.com/problems/two-sum/description/
+给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。
+你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。
+示例:
+给定 nums = [2, 7, 11, 15], target = 9
+因为 nums[0] + nums[1] = 2 + 7 = 9
+所以返回 [0, 1]
+
+1、<数组>Two Sum  
+（1）哈希表：
+unordered_map<int,int>map;
+map[key]=value;
+if(map.find(i)!=map.end())//找到i
+也可用：map.count(i)!=0
+
+（2）vector（https://blog.csdn.net/afishhhhhh/article/details/79980359）
+https://www.cnblogs.com/YJthua-china/p/6550960.html
+创建一维vector：
+vector<int> nums;//不指定长度
+vector<int> nums(n); // 指定长度为n 
+
+添加元素
+nums.push_back(1);//直接从数组末端添加
+nums[i] = 1;//直接赋值给第i个位置
+
+删除元素
+nums.resize(nums.size-i); //直接将数组长度减小，某种方式上删掉了后面i个
+nums.pop_back();//删掉最后一个元素
+
+数组遍历
+for(int i = 0; i < nums.size(); i++){
+    cout<<nums[i]<<endl;
+}
+
+获得长度：nums.size() 
+排序(O(nlogn))：sort(nums.begin(),nums.end()); 
+翻转：reverse(nums.begin(), nums.end()); 
+合并两个vector：合并nums1和nums2，并将合并后的数组赋值给nums
+vector<int> nums1(m),nums2(n);
+vector<int> nums;
+nums.resize(m+n);
+merge(nums1.begin(), nums1.end(),nums2.begin(),nums2.end(),nums);
+
+二维vector
+vector<vector <int> > nums(m ,vector<int>(n));    //m*n的二维vector
+
+@解法：参考（https://www.cnblogs.com/grandyang/p/4130379.html）
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int>res;
+        unordered_map<int,int>map;
+        for(int i=0;i<nums.size();i++){
+            if(map.count(target-nums[i])){
+            //if(map.find(target-nums[i])!=map.end()){  
+                res.push_back(map[target-nums[i]]);
+                res.push_back(i);//这个顺序是重要的
+                return res;
+            }
+            map[nums[i]]=i;
+        }
+        return res;
+    }
+};
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int>res;
+        int n=nums.size();
+        if(n<2) return res;
+        unordered_map<int,int>mp;
+        unordered_map<int, int> mp;
+        for (int i = 0; i < nums.size(); ++i) {
+            if (mp.count(target - nums[i])) {
+                return {mp[target - nums[i]],i};//遍历到i点时，它前面的点都加到mp里面了
+            }
+            mp[nums[i]] = i;
+        }
+        return {};
+        
+        /*for(int i=0;i<nums.size();i++) mp[nums[i]]=i;
+        for(int i=0;i<nums.size();i++){
+            if(mp.count)
+            if(mp[target-nums[i]]>0&&mp[target-nums[i]]!=i){
+                res.push_back(i);
+                res.push_back(mp[target-nums[i]]);
+                break;
+            }
+
+        }
+        return res;*/
+    }
+};
