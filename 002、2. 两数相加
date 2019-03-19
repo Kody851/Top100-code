@@ -1,0 +1,69 @@
+Add Two Numbers    （作业帮三面）
+https://leetcode-cn.com/problems/add-two-numbers/
+给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。
+如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。
+您可以假设除了数字 0 之外，这两个数都不会以 0 开头。
+示例：
+输入：(2 -> 4 -> 3) + (5 -> 6 -> 4)
+输出：7 -> 0 -> 8
+原因：342 + 465 = 807
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        if(!l1) return l2;
+        if(!l2) return l1;
+        ListNode*res=new ListNode(-1);
+        ListNode *cur1=l1, *cur2=l2, *cur=res;
+        int carry=0;
+        while(cur1&&cur2){
+            cur->next=new ListNode((cur1->val+cur2->val+carry)%10);
+            carry=(cur1->val+cur2->val+carry)/10;
+            cur1=cur1->next;
+            cur2=cur2->next;
+            cur=cur->next;
+        }
+        while(cur1){
+            cur->next=new ListNode((cur1->val+carry)%10);
+            carry=(cur1->val+carry)/10;
+            cur1=cur1->next;
+            cur=cur->next;
+        }
+        while(cur2){
+            cur->next=new ListNode((cur2->val+carry)%10);
+            carry=(cur2->val+carry)/10;
+            cur2=cur2->next;
+            cur=cur->next;
+        }
+        if(carry){
+            cur->next=new ListNode(carry);//注意(5)+(7)=(1->2)这种情况
+            cur->next->next=NULL;
+        }
+        return res->next;
+    }
+};
+当有链表到尽头时，取值记为零，使代码更简洁
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        if(!l1) return l2;
+        if(!l2) return l1;
+        ListNode*res=new ListNode(-1);
+        ListNode *cur1=l1, *cur2=l2, *cur=res;
+        int carry=0;
+        while(cur1||cur2){
+            int x=cur1?cur1->val:0;
+            int y=cur2?cur2->val:0;
+            int sum=x+y+carry;
+            cur->next=new ListNode(sum%10);
+            carry=sum/10;
+            if(cur1) cur1=cur1->next;
+            if(cur2) cur2=cur2->next;
+            cur=cur->next;
+        }
+        if(carry){
+            cur->next=new ListNode(carry);
+            cur->next->next=NULL;
+        }
+        return res->next;
+    }
+};
