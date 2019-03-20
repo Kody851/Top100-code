@@ -1,4 +1,4 @@
-# 一、
+一、
 https://leetcode-cn.com/problems/maximal-square/
 博客：https://blog.csdn.net/juzihongle1/article/details/76039800
 在一个由 0 和 1 组成的二维矩阵内，找到只包含 1 的最大正方形，并返回其面积。
@@ -31,6 +31,7 @@ public:
         return max*max;
     }
 };
+二、
 相关题目 LeetCode.463. 岛屿的周长 https://leetcode-cn.com/problems/island-perimeter/
 博客：https://blog.csdn.net/liyuanyue2017/article/details/81262666
 给定一个包含 0 和 1 的二维网格地图，其中 1 表示陆地 0 表示水域。
@@ -65,3 +66,42 @@ public:
 };
 当每次遇到新”岛屿”时，周长 + 4，但是有和之前的岛屿重合的边，这样两个”岛屿”的这条边都”废了”，不算入周长，周长 - 2 
 可以得出公式：周长 = 岛屿数 * 4 - 重合边数 * 2
+三、
+0 ，1矩阵中含有连续全1块的个数
+博客：https://blog.csdn.net/qq_35203425/article/details/82118617
+class Solution {
+public:
+    int NumOfBlock(vector<vector<int>>& rect) {
+        int count = 0;
+        // 遍历矩阵找1,块的定位
+        for (int i = 0; i < rect.size(); i++) {
+            for (int j = 0; j < rect[i].size(); j++) {
+                // 当找到1时,开始处理其所在的块
+                if (rect[i][j] == 1) {
+                    block(i, j);
+                    count++;
+                }
+            }
+        }
+        return count;// 输出块数
+    }
+
+    // 判断连续块,递归
+    private static void block(int i, int j) {
+        // 修改(i,j)坐标对应的数组元素的值(避免递归时反复判断相邻元素)
+        rect[i][j] = 4;
+        // 分别判断上下左右
+        if (i < rect.length - 1 && rect[i + 1][j] == 1) {
+            block(i + 1, j);
+        }
+        if (i > 0 && rect[i - 1][j] == 1) {
+            block(i - 1, j);
+        }
+        if (j < rect[i].length - 1 && rect[i][j + 1] == 1) {
+            block(i, j + 1);
+        }
+        if (j > 0 && rect[i][j - 1] == 1) {
+            block(i, j - 1);
+        }
+    }
+};
