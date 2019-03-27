@@ -89,7 +89,7 @@ public:
     // 判断连续块,递归
     private static void block(int i, int j) {
         // 修改(i,j)坐标对应的数组元素的值(避免递归时反复判断相邻元素)
-        rect[i][j] = 4;//赋值不为0和1即可
+        rect[i][j] = 4;//赋值不为0和1即可;或者可以用visited[i][j]来判断
         // 分别判断上下左右
         if (i < rect.size() - 1 && rect[i + 1][j] == 1) {
             block(i + 1, j);
