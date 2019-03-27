@@ -107,6 +107,39 @@ public:
 };
 四、
 0，1矩阵的最大连续全1块
+类似第三题的DFS法：
+int maxblock(vector<vector<int>>& rect) {
+    if(rect.empty()) return 0;
+    int m=rect.size(), n=rect[0].size();
+    int num=0,res=0;
+    vector<vector<bool>>visited(m,vector<bool>(n,0));
+    //bool *visited=new bool[m][n];
+    //bool visited[m][n];
+    //memset(visited,false,sizeof(visited));
+    for(int i=0;i<m;i++){
+        for(int j=0;j<n;j++){
+            if(rect[i][j]==1){
+                block(rect,i,j,num,visited);
+                if(num>res){
+                    res=num;//保存最大数目
+                    num=0;//重新计数
+                }
+            }
+        }
+    }
+}
+void block(vector<vector<int>>& rect, int i, int j, int &num, vector<vector<bool>>visited){//bool *visited
+    visited[i][j]=true;
+    num++;//块内1的数目
+    int m=rect.size(), n=rect[0].size();
+    if(i<m-1&&!visited[i+1][j]&&rect[i+1][j]==1) block(rect,i+1,j,num,visited);
+    if(i>0&&!visited[i-1][j]&&rect[i-1][j]==1) block(rect,i-1,j,num,visited);
+    if(j<n-1&&!visited[i][j+1]&&rect[i][j+1]==1) block(rect,i,j+1,num,visited);
+    if(j>0&&!visited[i][j-1]&&rect[i][j-1]==1) block(rect,i,j-1,num,visited);
+}
+
+
+以下思路不好
 对矩阵做三次扫描, 扫描的次序都是从左到右,从上到下.第一遍将所有为1的元素,依次标一个值,这个值从1开始 例如: 
 0 0 0 0 0 // 0 0 0 0 0标注成这样 
 0 1 1 0 0 // 0 1 2 0 0 
