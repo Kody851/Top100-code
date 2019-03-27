@@ -127,6 +127,7 @@ int maxblock(vector<vector<int>>& rect) {
             }
         }
     }
+    return res;
 }
 void block(vector<vector<int>>& rect, int i, int j, int &num, vector<vector<bool>>visited){//bool *visited
     visited[i][j]=true;
