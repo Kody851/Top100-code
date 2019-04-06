@@ -72,10 +72,11 @@ public:
 class Solution {
 public:
     int NumOfBlock(vector<vector<int>>& rect) {
-        int count = 0;
+        int m=rect.size(),n=rect[0].size(),count = 0;
+        vector<vector<bool>>visited(m,vector<bool>(n,0));
         // 遍历矩阵找1,块的定位
-        for (int i = 0; i < rect.size(); i++) {
-            for (int j = 0; j < rect[i].size(); j++) {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
                 // 当找到1时,开始处理其所在的块
                 if (rect[i][j] == 1) {
                     block(i, j);
@@ -87,7 +88,13 @@ public:
     }
 
     // 判断连续块,递归
-    private static void block(int i, int j) {
+    void block(int i, int j,vector<vector<int>>& rect,vector<vector<bool>>&visited) {
+        visited[i][j]=true;        
+        // 分别右边和下边
+        if (j < n- 1 && rect[i][j + 1] == 1 && !visited[i][j+1]) block(i, j + 1, rect, visited);
+        if (i < m- 1 && rect[i+1][j] == 1 && !visited[i+1][j]) block(i+1, j, rect, visited);
+    }
+    /*private static void block(int i, int j) {
         // 修改(i,j)坐标对应的数组元素的值(避免递归时反复判断相邻元素)
         rect[i][j] = 4;//赋值不为0和1即可;或者可以用visited[i][j]来判断
         // 分别判断上下左右
@@ -103,7 +110,7 @@ public:
         if (j > 0 && rect[i][j - 1] == 1) {
             block(i, j - 1);
         }
-    }
+    }*/
 };
 四、
 0，1矩阵的最大连续全1块
